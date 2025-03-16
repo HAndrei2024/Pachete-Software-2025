@@ -3,6 +3,4 @@
 venv/
 salut
 salut!
-_pycache_/
-_pycache_
-._pycache_/
+__pycache__/
