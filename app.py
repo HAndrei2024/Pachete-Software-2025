@@ -1,21 +1,17 @@
 import streamlit as st
 import numpy as np
 import pandas as pd
+import home_screen
+import dataset_screen
 
-# Set title of the app
-st.title("Interactive Streamlit Example")
+st.title("Proiect Pachete Software")
+st.markdown("Andrei Harja & Stefan Grigoras")
 
-# Input widgets
-name = st.text_input("Enter your name:")
-age = st.slider("Select your age", 0, 100, 25)
+section = st.sidebar.radio("Navigați la:",
+                           ["Home Screen", "Dataset",])
 
-# Display user inputs
-st.write(f"Hello, {name}!")
-st.write(f"You are {age} years old.")
+if section == "Home Screen":
+    home_screen.home_screen()
 
-# Display a plot based on age
-data = pd.DataFrame(
-    np.random.randn(100, 2), columns=["x", "y"]
-)
-data["y"] = data["y"] * age  # Scale y by age
-st.line_chart(data)
+elif section == "Dataset":
+    dataset_screen.dataset_screen()
