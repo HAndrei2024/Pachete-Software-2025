@@ -44,6 +44,24 @@ for col in df.columns:
     print(f"Valori unice: {col} : {df[col].unique()}")
     print()
 
+print("Afisare coloana localitate: \n")
+print(df.loc[:,"SUBLOCALITY"])
+
+print("Afisare coloana cu index 4: \n")
+print(df.iloc[:,3])
+
+print("Afisare proprietatilor din New York ce au numarul de paturi mai mare decat 3: \n")
+print(df.loc[(df["SUBLOCALITY"] == "New York") & (df["BEDS"] > 3)])
+
+print("Afisare caselor la vanzare ce au un pret intre 500000 - 2000000")
+print(df.loc[(df["TYPE"] == "House for sale") & (df["PRICE"].between(500000, 2000000))])
+
+print("Afisare ultimele 5 randuri si toate coloanele fara prima: \n")
+print(df.iloc[-5:, 1:])
+
+print("Afisarea proprietatilor aflate pe pozitii pare: \n")
+print(df.iloc[::2, :])
+
 print("Afisare valori pe localitati: \n")
 df_values_localities = df.groupby(by="SUBLOCALITY").sum(numeric_only = True)
 print(df_values_localities)
