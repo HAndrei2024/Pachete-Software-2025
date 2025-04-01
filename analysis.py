@@ -1,5 +1,9 @@
 import numpy as np
 import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+from sklearn.preprocessing import StandardScaler
+from sklearn.preprocessing import LabelEncoder
 
 df = pd.read_csv("Dataset.csv")
 
@@ -94,3 +98,63 @@ print(df_avg_price_per_type)
 print("Afisare randurilor cu cel mai mare pret pe tip de proprietate: \n")
 df_max_price_per_type = df.loc[df.groupby("TYPE")["PRICE"].idxmax()]
 print(df_max_price_per_type)
+
+# Grafic de tip scatter plot pt vizualizarea outlinerilor
+def plot_scatter_with_regression(df, target, features):
+    for col in features:
+        plt.figure(figsize=(8, 5))
+        sns.regplot(data=df, x=col, y=target, scatter_kws={'s': 30}, line_kws={'color': 'black'})
+        plt.title(f"{target} in functie de {col}")
+        plt.xlabel(col)
+        plt.ylabel(target)
+        plt.grid(True)
+        plt.tight_layout()
+        plt.show()
+
+numeric_cols = ["BEDS", "BATH", "MetriPatratiLocuinta"]
+plot_scatter_with_regression(df, target="PRICE", features=numeric_cols)
+
+# Tratarea valorilor folosind un Standard Scaler
+
+col_scale = ["PRICE", "BEDS", "BATH", "MetriPatratiLocuinta"]
+scaler = StandardScaler()
+scaled_values = scaler.fit_transform(df[col_scale])
+
+df_scaled = pd.DataFrame(scaled_values, columns=[f'{col}_scaled' for col in col_scale])
+df_combined = pd.concat([df, df_scaled], axis=1)
+
+print(df_combined)
+
+numeric_df = df.select_dtypes(include=['int64', 'float64'])
+
+# Matrice de corelatie
+correlation_matrix = numeric_df.corr()
+
+# Plot heatmap pentru corelatii
+plt.figure(figsize=(8, 6))
+sns.heatmap(correlation_matrix, annot=True, cmap='coolwarm', fmt=".2f")
+plt.title('Matrice de Corelatie')
+plt.tight_layout()
+plt.show()
+
+# Histograma pentru fiecare coloana numerica
+for col in numeric_df.columns:
+    plt.figure(figsize=(8, 4))
+    sns.histplot(df[col], kde=True, bins=30)
+    plt.title(f'Histograma pentru {col}')
+    plt.xlabel(col)
+    plt.ylabel('Frecventa')
+    plt.grid(True)
+    plt.tight_layout()
+    plt.show()
+
+# Codificare a datelor
+df_label_encoded = df.copy()
+label_encoders = {}
+
+for col in ["TYPE", "SUBLOCALITY"]:
+    le = LabelEncoder()
+    df_label_encoded[col + "_encoded"] = le.fit_transform(df_label_encoded[col])
+    label_encoders[col] = le
+
+print(df_label_encoded[["TYPE", "TYPE_encoded", "SUBLOCALITY", "SUBLOCALITY_encoded"]].head())
