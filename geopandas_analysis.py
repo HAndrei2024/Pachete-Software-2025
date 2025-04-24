@@ -27,9 +27,9 @@ rivers.to_file("new_york_rivers.shp", driver="ESRI Shapefile")
 print("Shapefiles saved: usa_boundary.shp, usa_cities_detailed.shp, new_york_rivers.shp")
 '''
 
-usa = gpd.read_file("usa_boundary.shp")
-cities = gpd.read_file("usa_cities_detailed.shp")
-rivers = gpd.read_file("new_york_rivers.shp")
+usa = gpd.read_file("geopandas_files/usa_boundary.shp")
+cities = gpd.read_file("geopandas_files/usa_cities_detailed.shp")
+rivers = gpd.read_file("geopandas_files/new_york_rivers.shp")
 
 # Afisare harta SUA cu orase, raurile din New York
 
