@@ -4,6 +4,8 @@ import pandas as pd
 import home_screen
 import dataset_screen
 
+df = pd.read_csv("Dataset.csv")
+
 st.title("Proiect Pachete Software")
 st.markdown("Andrei Harja & Stefan Grigoras")
 
@@ -14,4 +16,4 @@ if section == "Home Screen":
     home_screen.home_screen()
 
 elif section == "Dataset":
-    dataset_screen.dataset_screen()
+    dataset_screen.dataset_screen(df)
