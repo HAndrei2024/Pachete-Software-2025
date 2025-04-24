@@ -109,7 +109,13 @@ def plot_scatter_with_regression(df, target, features):
         plt.ylabel(target)
         plt.grid(True)
         plt.tight_layout()
+
+        plt.gcf().axes[0].yaxis.get_major_formatter().set_scientific(False)
+
         plt.show()
+
+
+df = df.loc[df["PRICE"].between(500000, 65000000)]
 
 numeric_cols = ["BEDS", "BATH", "MetriPatratiLocuinta"]
 plot_scatter_with_regression(df, target="PRICE", features=numeric_cols)
