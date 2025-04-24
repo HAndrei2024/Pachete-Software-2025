@@ -84,16 +84,6 @@ def dataset_screen(df):
     st.write("Produsele filtrate:", data_filtrata)
 
 
-    st.markdown(r"""
-        ## 5. Analiza GroupBy
-     """)
-    
-    if st.button("Analiza GroupBy"):
-        response_string = anf.groupby_analysis_chat()
-        st.write(response_string)
-
-
-
     st.title("Data Analysis on Properties")
 
     # Button for Locality Summary
