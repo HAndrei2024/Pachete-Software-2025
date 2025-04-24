@@ -11,8 +11,11 @@ from sklearn.metrics import r2_score
 
 df = pd.read_csv("Dataset.csv")
 
-X = df[['BEDS', 'BATH', 'MetriPatratiLocuinta']]
-y = df['PRICE']
+#X = df[['BEDS', 'BATH', 'MetriPatratiLocuinta']]
+X = df.drop(['PRICE'], axis=1)
+X = pd.get_dummies(X)
+#y = df['PRICE']
+y = np.log(df['PRICE'])
 
 X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=63, test_size=.20)
 
@@ -63,4 +66,4 @@ print(f"R² (R squared): {r2:.4f}")
 single_predicted = model.predict(X_test[2:3])
 print(single_predicted)
 
-print('Single House price prediction with LR:', single_predicted)
+print('Single House price prediction with LR:', np.exp(single_predicted))
