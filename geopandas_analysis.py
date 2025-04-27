@@ -44,7 +44,7 @@ plt.show()
 
 usa_1 = countries[countries["ADMIN"] == "United States of America"]
 
-# Selectare vecini SUA
+# Selectare vecini (tarile care ating) SUA
 
 neighbors = countries[countries.touches(usa_1.geometry.iloc[0])]
 
@@ -64,6 +64,7 @@ neighbors_utm = neighbors.to_crs(epsg=3857)
 
 # Coordonatele Washington
 washington_wgs = Point(-77.0369, 38.9072)
+# Transformare in coordonate metrice
 washington_utm = gpd.GeoSeries([washington_wgs], crs="EPSG:4326").to_crs(epsg=3857).iloc[0]
 
 # Calcul centroizi
@@ -78,7 +79,7 @@ print(neighbors_utm[["ADMIN", "distance_km"]].sort_values("distance_km"))
 
 usa_neighbors["name"] = usa_neighbors["ADMIN"]
 
-# Convertim în CRS metric EPSG:3857 (pentru contextily)
+# Convertim în coordonate metrice metric EPSG:3857 (pentru contextily)
 usa_neighbors = usa_neighbors.to_crs(epsg=3857)
 
 # Coordonatele Washington
