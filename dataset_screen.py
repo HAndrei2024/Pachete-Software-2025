@@ -2,7 +2,8 @@ import streamlit as st
 import pandas as pd
 from io import StringIO
 import analysis_functions as anf
-
+import cluster_functions as cls
+import regresie_multipla as rm
 
 
 def dataset_screen(df):
@@ -125,3 +126,42 @@ def dataset_screen(df):
     if st.button('Show Maximum Price per Property Type'):
         anf_max_price = anf.get_max_price_per_property_type(df)
         st.write(anf_max_price)
+
+    st.title("Analiza Cluster")
+
+    df_kmeans, features_scaled = cls.preprocess_kmeans(df)
+    df_kmeans = cls.cluster_and_add(df_kmeans, features_scaled, n_clusters=4)
+
+    st.subheader("Vizualizări K-Means")
+
+    if st.button("Arată Elbow Method"):
+        fig = cls.plot_elbow(features_scaled)
+        st.pyplot(fig)
+
+    if st.button("Scatter: PRICE vs MetriPatratiLocuinta"):
+        fig = cls.plot_price_vs_metripatrat(df_kmeans)
+        st.pyplot(fig)
+
+    if st.button("Scatter: PRICE vs BEDS"):
+        fig = cls.plot_price_vs_beds(df_kmeans)
+        st.pyplot(fig)
+
+    if st.button("Scatter: MetriPatratiLocuinta vs BEDS"):
+        fig = cls.plot_metripatrat_vs_beds(df_kmeans)
+        st.pyplot(fig)
+
+    if st.button("PCA 2D Projection"):
+        fig = cls.plot_pca_projection(features_scaled, df_kmeans)
+        st.pyplot(fig)
+
+    st.title("Linear Regression Analysis")
+
+    st.subheader("Grafic: Predicted vs Actual - Train Set")
+    if st.button("Arată Train Set Plot"):
+        fig = rm.plot_train_predictions()
+        st.pyplot(fig)
+
+    st.subheader("Grafic: Predicted vs Actual - Test Set")
+    if st.button("Arată Test Set Plot"):
+        fig = rm.plot_test_predictions()
+        st.pyplot(fig)
